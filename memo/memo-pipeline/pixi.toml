@@ -1,0 +1,30 @@
+[workspace]
+channels = ["conda-forge"]
+name = "memo-pipeline"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[pypi-dependencies]
+memo = { git = "https://github.com/Di-Strix/memo", rev = "44688f1e9b3872dc0ef420f5156550147db8e546" }
+termcolor = ">=3.3.0, <4"
+onnxruntime-gpu = ">=1.23.2, <2"
+xformers = { git = "https://github.com/LagPixelLOL/xformers", rev = "e70569ed82db3965b73b6d175ace99de2d607040" }
+
+[environments]
+
+[tasks]
+
+[activation.env]
+LD_LIBRARY_PATH = "$CONDA_PREFIX/lib"
+
+[dependencies]
+python = ">=3.10,<3.11"
+ffmpeg = ">=8,<9"
+libnpp = ">=13.0.0,<14"
+libcudnn = ">=9.20.0.48,<10"
+cuda-toolkit = ">=13.2.0,<14"
+
+[pypi-options]
+index-url = "https://pypi.org/simple"
+extra-index-urls = ["https://download.pytorch.org/whl/cu130"]
+no-build-isolation = ["xformers"]
