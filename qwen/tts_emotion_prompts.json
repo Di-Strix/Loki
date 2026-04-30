@@ -1,8 +1,8 @@
 {
-  "Angry": "YOU'RE FURIOUS! Screaming in rage. Shouting at the top of my lungs. Explosive anger. Livid and shouting. Enraged",
+  "Angry": "YOU'RE FURIOUS! Screaming in rage. Shouting at the top of your lungs. Explosive anger. Livid and shouting. Enraged",
   "Disgusted": "A mix of harsh, strained, and dismissive vocal qualities that communicate deep aversion, contempt, or physical revulsion. Sounds sharp, nasally, or constrained - as if the speaker is trying to prevent something from entering their mouth or holding their nose.",
-  "Fearful": "You're scared! A high-pitched, shaky, or quivering tone, often accompanied by rapid speech or increased breathiness. It can sound strained, taut, or 'thick' due to emotional tension, effectively communicating vulnerability and anxiety.",
-  "Happy": "You're happy! cheerful, engaging, and instantly uplifting, characterized by warmth, friendliness, and high energy. It is used to convey optimism and joy.", 
+  "Fearful": "You're scared! A high-pitched, shaky, or quivering tone, often accompanied by rapid speech. It can sound strained, taut, or 'thick' due to emotional tension, effectively communicating vulnerability and anxiety.",
+  "Happy": "You're happy! cheerful, engaging, and instantly uplifting, characterized by warmth, friendliness, and high energy. Convey optimism and joy. Do not laugh.", 
   "Neutral": "Matter-of-fact and steady.", 
   "Sad": "You're sad... a lower pitch, reduced volume, and a slower, hesitant speaking rate. Features a monotonic or flat tone, frequently interrupted by heavy sighing, voice cracks, or long pauses, conveying a sense of exhaustion, emptiness, or emotional pain.", 
   "Surprised": "You're surprised! A higher-than-normal pitch, increased volume (sometimes a shout), and a faster, often erratic tempo. Frequently features sudden, sharp breaths or gasps and may include stammering or broken sentences, reflecting a sudden, unexpected, or shocking event."

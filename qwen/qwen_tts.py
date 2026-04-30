@@ -15,7 +15,7 @@ def qwen_tts(
     device: torch.device | str,
     dtype: torch.dtype = torch.bfloat16,
     attn_implementation: str = "flash_attention_2",
-    emotion_prompts_path: Path = Path(__file__).parent / "emotion_prompts.json",
+    emotion_prompts_path: Path = Path(__file__).parent / "tts_emotion_prompts.json",
     overwrite_output: bool = False,
 ) -> list[tuple[TTSManifest, str]]:
     model = Qwen3TTSModel.from_pretrained(
