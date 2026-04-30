@@ -47,6 +47,7 @@ Each of the json objects must comply to the one of the following schemas:
 |`tts_target_emotion`|string|See previous table|
 |`vg_target_emotion`|string|See previous table|
 |`voice_reference_path`|string|See previous table|
+|`adjust_face_reference_emotion`|string \| bool|See previous table|
 |`face_reference_path`|string|See previous table|
 |`output_path`|string|See previous table|
 
