@@ -12,7 +12,6 @@ from utils.manifest import (
     VCManifest,
     VGManifest,
     AnyManifest,
-    manifest_depends,
 )
 from vevo.vevo_voice import vevo_voice, vevo_voice2
 from qwen.qwen_tts import qwen_tts
@@ -21,27 +20,10 @@ from project_root import PROJECT_ROOT
 import gc
 
 
-def depends_on_failed(
-    manifest: AnyManifest,
-    failed: Sequence[tuple[AnyManifest, Any]],
-) -> bool:
-    return any(
-        manifest_depends(manifest, failed_manifest) for failed_manifest, _ in failed
-    )
-
-
 def filter_manifests[T: AnyManifest](
     target_type: type[T],
     candidates: Sequence[AnyManifest],
-    # failed: Sequence[tuple[AnyManifest, Any]] = [],
 ) -> list[T]:
-    # return list(
-    #     filter(
-    #         lambda x: isinstance(x, target_type) and not depends_on_failed(x, failed),
-    #         candidates,
-    #     )
-    # )  # pyright: ignore[reportReturnType]
-
     return list(filter(lambda x: isinstance(x, target_type), candidates))  # pyright: ignore[reportReturnType]
 
 
