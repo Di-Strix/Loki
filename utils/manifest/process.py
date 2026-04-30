@@ -3,7 +3,7 @@ from pathlib import Path
 from termcolor import colored
 import json
 
-from utils.manifest.types import TTSManifest, VCManifest, VGManifest, _Manifest
+from utils.manifest.types import _Manifest, AnyManifest
 from utils.manifest.builder import (
     build_tts_manifest,
     build_vc_manifest,
@@ -13,65 +13,44 @@ from utils.manifest.parser import parse_manifest_entry
 
 
 def _expand_manifest(
-    manifest: _Manifest, tts_dir: Path, vc_dir: Path, file_prefix: str = ""
-) -> list[TTSManifest | VCManifest | VGManifest]:
-    if manifest.type == "TTS":
+) -> list[AnyManifest]:
+    manifests: list[AnyManifest] = []
+
+    if manifest.tts_text and manifest.tts_language and manifest.tts_target_emotion:
         tts_manifest = build_tts_manifest(
             text=manifest.tts_text,
             language=manifest.tts_language,
             target_emotion=manifest.tts_target_emotion,
             tts_dir=tts_dir,
-            file_prefix=file_prefix,
         )
-        vc_manifest = build_vc_manifest(
-            source_audio_path=tts_manifest.output_path,
-            source_audio_text=manifest.tts_text,
-            voice_reference_path=manifest.vc_voice_reference_path,
-            voice_reference_text=manifest.vc_voice_reference_text,
-            vc_dir=vc_dir,
-            file_prefix=file_prefix,
-        )
-        vg_manifest = build_vg_manifest(
-            audio_path=vc_manifest.output_path,
-            face_reference_path=manifest.vg_face_reference_path,
-            output_path=manifest.output_path,
-            target_emotion=manifest.vg_target_emotion,
-        )
-        return [tts_manifest, vc_manifest, vg_manifest]
-    elif manifest.type == "VC":
-        vc_manifest = build_vc_manifest(
-            source_audio_path=manifest.vc_source_audio_path,
-            source_audio_text=manifest.vc_source_audio_text,
-            voice_reference_path=manifest.vc_voice_reference_path,
-            voice_reference_text=manifest.vc_voice_reference_text,
-            vc_dir=vc_dir,
-            file_prefix=file_prefix,
-        )
-        vg_manifest = build_vg_manifest(
-            audio_path=vc_manifest.output_path,
-            face_reference_path=manifest.vg_face_reference_path,
-            output_path=manifest.output_path,
-            target_emotion=manifest.vg_target_emotion,
-        )
-        return [vc_manifest, vg_manifest]
+        manifest.vc_source_audio_path = tts_manifest.output_path
+        manifest.vc_source_audio_text = manifest.tts_text
+        manifests.append(tts_manifest)
 
-    print("WARN: encountered manifest of type 'VideoGen', which is not expected")
-    print(
-        f"audio_path={manifest.vg_audio_path}, face_reference_path={manifest.vg_face_reference_path}, output_path={manifest.output_path}"
+    vc_manifest = build_vc_manifest(
+        source_audio_path=manifest.vc_source_audio_path,
+        source_audio_text=manifest.vc_source_audio_text,
+        voice_reference_path=manifest.vc_voice_reference_path,
+        voice_reference_text=manifest.vc_voice_reference_text,
+        vc_dir=vc_dir,
     )
-    return [
-        build_vg_manifest(
-            audio_path=manifest.vg_audio_path,
-            face_reference_path=manifest.vg_face_reference_path,
-            output_path=manifest.output_path,
-            target_emotion=manifest.vg_target_emotion,
-        )
-    ]
+    manifest.vg_audio_path = vc_manifest.output_path
+    manifests.append(vc_manifest)
+
+    vg_manifest = build_vg_manifest(
+        audio_path=manifest.vg_audio_path,
+        face_reference_path=manifest.vg_face_reference_path,
+        target_emotion=manifest.vg_target_emotion,
+        output_path=manifest.output_path,
+    )
+    manifests.append(vg_manifest)
+
+    return manifests
 
 
 def process_manifest(
     file: Path, tts_dir: Path, vc_dir: Path
-) -> list[TTSManifest | VCManifest | VGManifest]:
+) -> list[AnyManifest]:
     manifests = []
 
     with open(file) as manifest_file:
