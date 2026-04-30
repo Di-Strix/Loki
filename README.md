@@ -33,9 +33,10 @@ Each of the json objects must comply to the one of the following schemas:
 |---|----|-----------|
 |`tts_text`|string|A text to be synthesized|
 |`tts_language`|string|Language, supported by the TTS Engine. Currently, one of: Chinese, English, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian|
-|`tts_target_emotion`|string|One of the keys, defined in [`qwen/emotion_prompts.json`](qwen/emotion_prompts.json): Angry, Disgusted, Fearful, Happy, Neutral, Sad, Surprised|
+|`tts_target_emotion`|string|One of the keys, defined in [`qwen/tts_emotion_prompts.json`](qwen/tts_emotion_prompts.json): Angry, Disgusted, Fearful, Happy, Neutral, Sad, Surprised|
 |`vg_target_emotion`|string|One of defined in [MEMO inference file](https://github.com/Di-Strix/memo/blob/main/memo/inference.py#L166): Angry, Disgusted, Fearful, Happy, Neutral, Sad, Surprised|
 |`voice_reference_path`|string|A path to the voice reference `.wav` file|
+|`adjust_face_reference_emotion`|string \| bool|Adjusts the reference image's facial expression. Set to a string to specify the emotion, or `true` to inherit `vg_target_emotion`. If unspecified, automatically enabled whenever `vg_target_emotion` is specified. The target emotion must exist in [`qwen/emotion_prompts.json`](qwen/emotion_prompts.json)|
 |`face_reference_path`|string|A path to the `.png` image which will be used for video generation|
 |`output_path`|string|A path where to save the resulting `.mp4` file to. Must include filename|
 
