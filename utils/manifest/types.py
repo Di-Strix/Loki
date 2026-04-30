@@ -3,10 +3,9 @@ from pathlib import Path
 
 
 class _Manifest:
-    type: Literal["TTS", "VC", "VideoGen"]
-    tts_text: str
-    tts_language: str
-    tts_target_emotion: str
+    tts_text: str | None = None
+    tts_language: str | None = None
+    tts_target_emotion: str | None = None
     vc_source_audio_path: Path
     vc_source_audio_text: str | None = None
     vc_voice_reference_path: Path

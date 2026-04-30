@@ -60,7 +60,6 @@ def parse_manifest_entry(entry: object, basepath: Path) -> _Manifest:
             "'source_audio_path' must point to a file"
         )
 
-        manifest.type = "VC"
         manifest.vc_source_audio_path = basepath / source_audio_path
         manifest.vc_source_audio_text = source_audio_text
         return manifest
@@ -69,7 +68,6 @@ def parse_manifest_entry(entry: object, basepath: Path) -> _Manifest:
             text is not None and tts_target_emotion is not None and language is not None
         ), "Provide either 'source_path' OR all 'tts_text', 'tts_target_emotion' and 'tts_language'"
 
-        manifest.type = "TTS"
         manifest.tts_text = str(text)
         manifest.tts_language = str(language)
         manifest.tts_target_emotion = str(tts_target_emotion)
