@@ -19,6 +19,7 @@ def parse_manifest_entry(entry: object, basepath: Path) -> _Manifest:
     text = entry.pop("tts_text", None)
     language = entry.pop("tts_language", None)
     tts_target_emotion = entry.pop("tts_target_emotion", None)
+    adjust_face_reference_emotion = entry.pop("adjust_face_reference_emotion", None)
     vg_target_emotion = entry.pop("vg_target_emotion", None)
 
     if len(unexpected_keys := entry.keys()):
@@ -50,6 +51,22 @@ def parse_manifest_entry(entry: object, basepath: Path) -> _Manifest:
 
     assert vg_target_emotion is None or isinstance(vg_target_emotion , str)
     manifest.vg_target_emotion = vg_target_emotion
+
+    assert adjust_face_reference_emotion is None or isinstance(adjust_face_reference_emotion , bool) or isinstance(adjust_face_reference_emotion , str), "'adjust_face_reference_emotion' must be either None, bool or string"
+    if adjust_face_reference_emotion is None and vg_target_emotion is not None:
+        # Enable by default, given prerequisites are satisfied
+        adjust_face_reference_emotion = True 
+
+    if adjust_face_reference_emotion is not None:
+        manifest.ie_face_reference_path = face_reference_path
+
+        if isinstance(adjust_face_reference_emotion, str):
+            manifest.ie_target_emotion = adjust_face_reference_emotion
+        elif adjust_face_reference_emotion is True:
+            assert vg_target_emotion is not None, "if 'adjust_face_reference_emotion' is true, 'vg_target_emotion' must be specified"
+            manifest.ie_target_emotion = vg_target_emotion
+        else:
+            manifest.ie_target_emotion = None
 
     if source_audio_path is not None:
         assert text is None and tts_target_emotion is None, (

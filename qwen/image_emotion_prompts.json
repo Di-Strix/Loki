@@ -1,0 +1,9 @@
+{
+  "Angry": "Modify the subject's expression to look slightly angry. Keep mouth closed",
+  "Disgusted": "Edit the subject's face to show slight disgust. Keep mouth closed",
+  "Fearful": "Change the expression to show slight fear. Keep mouth closed",
+  "Happy": "Adjust the expression to be slightly happy. Keep mouth closed",
+  "Neutral": "Adjust the expression to be neutral.",
+  "Sad": "Modify the face to slightly express sadness. Do not add tears",
+  "Surprised": "Edit the subject to look slightly surprised. Keep mouth closed"
+}

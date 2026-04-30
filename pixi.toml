@@ -34,3 +34,7 @@ flash-attn = { url = "https://github.com/mjun0812/flash-attention-prebuild-wheel
 hf-transfer = ">=0.1.9, <0.2"
 audio-separator = { version = ">=0.44.1, <0.45", extras = ["gpu"] }
 onnxruntime-gpu = ">=1.24.4, <2"
+diffusers = ">=0.37.1, <0.38"
+pillow = ">=12.1.1, <13"
+torch = ">=2.11.0, <2.12"
+gguf = ">=0.18.0, <0.19"

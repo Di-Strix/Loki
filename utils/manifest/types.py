@@ -1,4 +1,3 @@
-from typing import Literal
 from pathlib import Path
 
 
@@ -10,6 +9,8 @@ class _Manifest:
     vc_source_audio_text: str | None = None
     vc_voice_reference_path: Path
     vc_voice_reference_text: str | None = None
+    ie_face_reference_path: Path | None = None
+    ie_target_emotion: str | None = None
     vg_audio_path: Path
     vg_face_reference_path: Path
     vg_target_emotion: str | None
@@ -60,5 +61,11 @@ class VGManifest:
         self.output_path = output_path
         self.target_emotion = target_emotion
 
+class IEManifest:
+    def __init__(self, face_reference_path: Path, target_emotion: str, output_path: Path,):
+        self.face_reference_path = face_reference_path
+        self.output_path = output_path
+        self.target_emotion = target_emotion
 
-type AnyManifest = TTSManifest | VCManifest | VGManifest
+
+type AnyManifest = TTSManifest | VCManifest | IEManifest | VGManifest

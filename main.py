@@ -10,11 +10,13 @@ from utils.manifest import (
     process_manifest,
     TTSManifest,
     VCManifest,
+    IEManifest,
     VGManifest,
     AnyManifest,
 )
 from vevo.vevo_voice import vevo_voice, vevo_voice2
 from qwen.qwen_tts import qwen_tts
+from qwen.qwen_image import qwen_image
 from memo.memo_vg import memo_vg
 from project_root import PROJECT_ROOT
 import gc
@@ -43,6 +45,12 @@ if __name__ == "__main__":
         help="Directory for voice conversion results",
     )
     parser.add_argument(
+        "--ie-dir",
+        default=PROJECT_ROOT() / "outputs" / "ie",
+        type=Path,
+        help="Directory for image editing results",
+    )
+    parser.add_argument(
         "--device",
         default="cuda:0",
         type=str,
@@ -59,28 +67,33 @@ if __name__ == "__main__":
         nargs="?",
         const="all",
         default=False,
-        choices=["all", "tts", "vc"],
-        help="Clean directories: 'all', 'tts', or 'vc'. Default is False. If flag is present, the default is 'all'",
+        choices=["all", "tts", "vc", "ie"],
+        help="Clean directories: 'all', 'tts', 'vc' or 'ie'. Default is False. If flag is present, the default is 'all'",
     )
 
     args = parser.parse_args()
 
-    manifest_path, tts_dir, vc_dir = (
+    manifest_path, tts_dir, vc_dir, ie_dir = (
         args.manifest.resolve(),
         args.tts_dir.resolve(),
         args.vc_dir.resolve(),
+        args.ie_dir.resolve(),
     )
     device: str = args.device
     overwrite_existing: bool = args.overwrite_existing
-    clean_start: Literal["all", "tts", "vc"] | bool = args.clean
+    clean_start: Literal["all", "tts", "vc", "ie"] = args.clean
 
     if clean_start:
         if clean_start == "all" or clean_start == "tts":
             shutil.rmtree(tts_dir, ignore_errors=True)
         if clean_start == "all" or clean_start == "vc":
             shutil.rmtree(vc_dir, ignore_errors=True)
+        if clean_start == "all" or clean_start == "ie":
+            shutil.rmtree(ie_dir, ignore_errors=True)
 
-    manifests = process_manifest(file=manifest_path, tts_dir=tts_dir, vc_dir=vc_dir)
+    manifests = process_manifest(
+        file=manifest_path, tts_dir=tts_dir, vc_dir=vc_dir, ie_dir=ie_dir
+    )
 
     tts_tasks = filter_manifests(TTSManifest, manifests)
     failed_tts_tasks = qwen_tts(
@@ -93,6 +106,11 @@ if __name__ == "__main__":
     vc_tasks = filter_manifests(VCManifest, manifests)
     failed_vc_tasks = vevo_voice(
         vc_tasks, device=device, overwrite_output=overwrite_existing
+    )
+
+    ie_tasks = filter_manifests(IEManifest, manifests)
+    failed_ie_tasks = qwen_image(
+        ie_tasks, device=device, overwrite_output=overwrite_existing
     )
 
     gc.collect()

@@ -1,4 +1,4 @@
-from utils.manifest.types import TTSManifest, VCManifest, VGManifest
+from utils.manifest.types import TTSManifest, VCManifest, VGManifest, IEManifest
 from hashlib import sha256
 from pathlib import Path
 
@@ -38,6 +38,21 @@ def build_vc_manifest(
         source_audio_text=source_audio_text,
         voice_reference_path=voice_reference_path.resolve(),
         voice_reference_text=voice_reference_text,
+        output_path=output_path.resolve(),
+    )
+
+
+def build_ie_manifest(
+    face_reference_path: Path,
+    target_emotion: str,
+    ie_dir: Path,
+) -> IEManifest:
+    path_hash = sha256(str(face_reference_path).encode()).hexdigest()[:5]
+    filename = f"{face_reference_path.stem}_{target_emotion}.{path_hash}.png"
+    output_path = ie_dir / filename
+    return IEManifest(
+        face_reference_path=face_reference_path.resolve(),
+        target_emotion=target_emotion,
         output_path=output_path.resolve(),
     )
 

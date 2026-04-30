@@ -8,11 +8,13 @@ from utils.manifest.builder import (
     build_tts_manifest,
     build_vc_manifest,
     build_vg_manifest,
+    build_ie_manifest,
 )
 from utils.manifest.parser import parse_manifest_entry
 
 
 def _expand_manifest(
+    manifest: _Manifest, tts_dir: Path, vc_dir: Path, ie_dir: Path
 ) -> list[AnyManifest]:
     manifests: list[AnyManifest] = []
 
@@ -37,6 +39,15 @@ def _expand_manifest(
     manifest.vg_audio_path = vc_manifest.output_path
     manifests.append(vc_manifest)
 
+    if manifest.ie_face_reference_path and manifest.ie_target_emotion:
+        ie_manifest = build_ie_manifest(
+            face_reference_path=manifest.ie_face_reference_path,
+            target_emotion=manifest.ie_target_emotion,
+            ie_dir=ie_dir,
+        )
+        manifest.vg_face_reference_path = ie_manifest.output_path
+        manifests.append(ie_manifest)
+
     vg_manifest = build_vg_manifest(
         audio_path=manifest.vg_audio_path,
         face_reference_path=manifest.vg_face_reference_path,
@@ -49,7 +60,7 @@ def _expand_manifest(
 
 
 def process_manifest(
-    file: Path, tts_dir: Path, vc_dir: Path
+    file: Path, tts_dir: Path, vc_dir: Path, ie_dir: Path
 ) -> list[AnyManifest]:
     manifests = []
 
@@ -63,7 +74,7 @@ def process_manifest(
                         manifest,
                         tts_dir=tts_dir,
                         vc_dir=vc_dir,
-                        file_prefix=f"{index + 1:04d}",
+                        ie_dir=ie_dir,
                     )
                 )
             except Exception:

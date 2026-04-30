@@ -194,6 +194,7 @@ environments:
       - pypi: direct+https://github.com/mjun0812/flash-attention-prebuild-wheels/releases/download/v0.9.4/flash_attn-2.8.3+cu130torch2.11-cp312-cp312-linux_x86_64.whl
       - pypi: https://files.pythonhosted.org/packages/e8/2d/d2a548598be01649e2d46231d151a6c56d10b964d94043a335ae56ea2d92/flatbuffers-25.12.19-py2.py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e6/ab/fb21f4c939bb440104cc2b396d3be1d9b7a9fd3c6c2a53d98c45b3d7c954/fsspec-2026.2.0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/5e/0c/e0f1eae7535a97476fb903f65301e35da2a66182b8161066b7eb312b2cb8/gguf-0.18.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/f1/5b/c816b9dd76a2e5e502aa25833c43cc00574c2579c0db84e79e93c5d13c4c/gradio-6.11.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/f0/b3/10cb03cf684aab2bec97cb0b9bbba4f93e7a20c6e0f3b4100c235a55ad93/gradio_client-2.4.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/28/27/3d6dcadc8a3214d8522c1e7f6a19554e33659be44546d44a2f7572ac7d2a/groovy-0.1.2-py3-none-any.whl
@@ -684,6 +685,7 @@ packages:
 - pypi: https://download.pytorch.org/whl/cu130/cuda_bindings-13.0.3-cp312-cp312-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl
   name: cuda-bindings
   version: 13.0.3
+  sha256: cf41d9e69019939aa15296fa66ea7d3fdb8d2c6383f729f4b1156c8b37808a06
   requires_dist:
   - cuda-pathfinder~=1.1
   - cuda-toolkit[nvjitlink,nvrtc,nvvm]==13.* ; extra == 'all'
@@ -1286,6 +1288,17 @@ packages:
   purls: []
   size: 577414
   timestamp: 1774985848058
+- pypi: https://files.pythonhosted.org/packages/5e/0c/e0f1eae7535a97476fb903f65301e35da2a66182b8161066b7eb312b2cb8/gguf-0.18.0-py3-none-any.whl
+  name: gguf
+  version: 0.18.0
+  sha256: af93f7ef198a265cbde5fa6a6b3101528bca285903949ab0a3e591cd993a1864
+  requires_dist:
+  - pyside6>=6.9,<7.0 ; python_full_version >= '3.9' and python_full_version < '3.14' and extra == 'gui'
+  - numpy>=1.17
+  - pyyaml>=5.1
+  - requests>=2.25
+  - tqdm>=4.27
+  requires_python: '>=3.8'
 - conda: https://conda.anaconda.org/conda-forge/linux-64/glslang-16.2.0-h96af755_1.conda
   sha256: 88a5ad3571948bde22957d08ab01328b8a7eb04fdee66268b3125cc322dbde8b
   md5: ba5b655d827f263090ad2dc514810328
@@ -4441,6 +4454,7 @@ packages:
 - pypi: https://download-r2.pytorch.org/whl/cu130/torch-2.11.0%2Bcu130-cp312-cp312-manylinux_2_28_x86_64.whl
   name: torch
   version: 2.11.0+cu130
+  sha256: 96911323dcfcd42028c7e8edde7bdf25bb187753234e8775f0f3f112e86a22db
   requires_dist:
   - filelock
   - typing-extensions>=4.10.0
@@ -5127,6 +5141,7 @@ packages:
 - pypi: https://download.pytorch.org/whl/cu130/xformers-0.0.35-py39-none-manylinux_2_28_x86_64.whl
   name: xformers
   version: 0.0.35
+  sha256: 962eb73f7243fb6a6b68ed85ed8f97780070ee35c1be464eefe3299b0382391d
   requires_dist:
   - torch>=2.10
   - numpy
