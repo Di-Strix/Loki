@@ -32,13 +32,13 @@ if __name__ == "__main__":
     parser.add_argument("manifest", type=Path, help="Path to the .jsonl manifest file")
     parser.add_argument(
         "--tts-dir",
-        default=PROJECT_ROOT() / "tts-outputs",
+        default=PROJECT_ROOT() / "outputs" / "tts",
         type=Path,
         help="Directory for text-to-speech synthesis results",
     )
     parser.add_argument(
         "--vc-dir",
-        default=PROJECT_ROOT() / "vc-outputs",
+        default=PROJECT_ROOT() / "outputs" / "vc",
         type=Path,
         help="Directory for voice conversion results",
     )
